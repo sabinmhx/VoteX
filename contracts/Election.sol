@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.21 <0.9.0;
 
-contract Election {
+abstract contract Election {
     address public admin;
     uint256 candidateCount;
     uint256 voterCount;
     bool start;
     bool end;
 
-    constructor() public {
+    constructor() {
         // Initilizing default values
         admin = msg.sender;
         candidateCount = 0;
@@ -27,6 +27,32 @@ contract Election {
         require(msg.sender == admin);
         _;
     }
+
+    // Custom SHA-256 implementation
+    function customSHA256(
+        string memory input
+    ) internal pure returns (string memory) {
+        bytes memory inputData = bytes(input);
+        bytes memory hash = new bytes(64); // SHA-256 hash length is 64 bytes
+
+        for (uint256 i = 0; i < inputData.length; i++) {
+            hash[i % 64] ^= inputData[i];
+            hash[i % 64] = bytes1(uint8(hash[i % 64]) << 1);
+            if (i % 64 == 63) {
+                hash[i % 64] = bytes1(uint8(hash[i % 64]) >> 1);
+            }
+        }
+
+        // Convert the bytes32 hash to a hexadecimal string
+        bytes memory hexChars = "0123456789abcdef";
+        bytes memory result = new bytes(64);
+        for (uint256 i = 0; i < 32; i++) {
+            result[i * 2] = hexChars[uint8(hash[i] >> 4)];
+            result[i * 2 + 1] = hexChars[uint8(hash[i] & 0x0f)];
+        }
+        return string(result);
+    }
+
     // Modeling a candidate
     struct Candidate {
         uint256 candidateId;
@@ -55,7 +81,7 @@ contract Election {
         candidateCount += 1;
     }
 
-    // Modeling a Election Details
+    // Modeling an Election's Details
     struct ElectionDetails {
         string adminName;
         string adminEmail;
@@ -150,14 +176,18 @@ contract Election {
     address[] public voters; // Array of address to store address of voters
     mapping(address => Voter) public voterDetails;
 
-    // Request to be added as voter
+    // Request to be added as a voter
     function registerAsVoter(string memory _name, string memory _phone) public {
+        // Hashing the voter's name using customSHA256
+        string memory name = customSHA256(_name);
+        string memory phone = customSHA256(_phone);
+
         Voter memory newVoter = Voter({
             voterAddress: msg.sender,
-            name: _name,
-            phone: _phone,
-            hasVoted: false,
+            phone: phone, // Store the hashed phone
+            name: name, // Store the hashed name
             isVerified: false,
+            hasVoted: false,
             isRegistered: true
         });
         voterDetails[msg.sender] = newVoter;
