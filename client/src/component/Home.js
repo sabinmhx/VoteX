@@ -74,9 +74,9 @@ export default class Home extends Component {
 
       // Getting election details from the contract
       const electionDetails = await this.state.ElectionInstance.methods
-      .getElectionDetails()
-      .call();
-      
+        .getElectionDetails()
+        .call();
+
       this.setState({
         elDetails: {
           adminName: electionDetails.adminName,
@@ -134,7 +134,7 @@ export default class Home extends Component {
           {!this.state.elStarted & !this.state.elEnded ? (
             <div className="container-item info">
               <center>
-                <h3>The election has not been initialize.</h3>
+                <h3>The election has not been initialized.</h3>
                 {this.state.isAdmin ? (
                   <p>Set up the election.</p>
                 ) : (
@@ -152,7 +152,7 @@ export default class Home extends Component {
           <>
             <UserHome el={this.state.elDetails} />
           </>
-        ) : !this.state.isElStarted && this.state.isElEnded ? (
+        ) : !this.state.elStarted && this.state.elEnded ? (
           <>
             <div className="container-item attention">
               <center>
@@ -243,7 +243,7 @@ export default class Home extends Component {
                         <input
                           className="input-home"
                           type="text"
-                          placeholder="eg. HR Head "
+                          placeholder="eg. Admin "
                           {...register("adminTitle", {
                             required: true,
                           })}
