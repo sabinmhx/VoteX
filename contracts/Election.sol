@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.21 <0.9.0;
 
-abstract contract Election {
+contract Election {
     address public admin;
     uint256 candidateCount;
     uint256 voterCount;
     bool start;
     bool end;
 
-    constructor() {
+    constructor() public {
         // Initilizing default values
         admin = msg.sender;
         candidateCount = 0;
@@ -173,6 +173,32 @@ abstract contract Election {
         bool hasVoted;
         bool isRegistered;
     }
+    // /* Hash name and phone but show real name and phone, not hashed value. */
+    // mapping(address => Voter) public voterDetails;
+    // mapping(address => string) public realNames; // Mapping to store real names
+    // mapping(address => string) public realPhones; // Mapping to store real phone numbers
+
+    // // Request to be added as a voter
+    // function registerAsVoter(string memory _name, string memory _phone) public {
+    //     // Hashing the voter's name and phone using customSHA256
+    //     string memory nameHash = customSHA256(_name);
+    //     string memory phoneHash = customSHA256(_phone);
+
+    //     Voter memory newVoter = Voter({
+    //         voterAddress: msg.sender,
+    //         phone: phoneHash, // Store the hashed phone
+    //         name: nameHash, // Store the hashed name
+    //         isVerified: false,
+    //         hasVoted: false,
+    //         isRegistered: true
+    //     });
+    //     voterDetails[msg.sender] = newVoter;
+    //     realNames[msg.sender] = _name; // Store real name associated with hashed name
+    //     realPhones[msg.sender] = _phone; // Store real phone number associated with hashed phone
+    //     voterCount += 1;
+    // }
+    // /* Hash name and phone but show real name and phone, not hashed value. */
+
     address[] public voters; // Array of address to store address of voters
     mapping(address => Voter) public voterDetails;
 
