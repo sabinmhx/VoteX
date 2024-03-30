@@ -28,7 +28,7 @@ export default function Navbar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/voting-guidelines" activeClassName="nav-active" onClick={() => setOpen(false)}>
+          <NavLink to="/Guidelines" activeClassName="nav-active" onClick={() => setOpen(false)}>
             <i className="fas fa-info-circle" /> Voting Guidelines
           </NavLink>
         </li>
