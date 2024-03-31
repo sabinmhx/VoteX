@@ -210,8 +210,8 @@ contract Election {
 
         Voter memory newVoter = Voter({
             voterAddress: msg.sender,
-            phone: phone, // Store the hashed phone
-            name: name, // Store the hashed name
+            phone: _phone, // Store the hashed phone
+            name: _name, // Store the hashed name
             isVerified: false,
             hasVoted: false,
             isRegistered: true
