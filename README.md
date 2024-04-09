@@ -14,8 +14,6 @@ A brief explanation on the basic workflow of the application.
 - The registered user (voter) following the approval from the admin casts their vote to the candidate of interest (from the voting page).
 - After some time, depending on the scale of the election the admin ends the election. As that happens the voting is closed and the results are displayed announcing the winner at the top of the results page.
 
-  **See demo [here](https://youtu.be/ "Watch VoteX demo").**
-
 ---
 
 ## Setting up the development environment
